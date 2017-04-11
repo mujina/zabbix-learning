@@ -1,0 +1,63 @@
+zabbix-nginx:
+  image: zabbix/zabbix-web-nginx-mysql
+  links:
+    - zabbix-server
+    - zabbix-db
+  ports:
+    - "80:80"
+  environment:
+    DB_SERVER_HOST: zabbix-db
+    MYSQL_DATABASE: zabbix
+    MYSQL_USER: zabbix
+    MYSQL_PASSWORD: zabbix_pwd
+    MYSQL_ROOT_PASSWORD: root_pwd
+
+#db:
+#  image: pugme/ansible
+#  volumes:
+#    - ../../ansible/probe.yml:/ansible/site.yml
+#  links:
+#    - zabbix-db
+#  environment:
+#    PROBE_HOST: "zabbix-db"
+#    PROBE_PORT: "3306"
+
+
+zabbix-agent: 
+  image: zabbix/zabbix-agent:ubuntu-latest
+  links: 
+    - zabbix-server
+  environment: 
+    ZBX_HOSTNAME: "agent1"
+    ZBX_SERVER_HOST: "zabbix-server" 
+    
+zabbix-server: 
+  image: zabbix/zabbix-server-mysql
+  hostname: zabbix-server
+  environment: 
+    DB_SERVER_HOST: zabbix-db
+    MYSQL_DATABASE: zabbix
+    MYSQL_USER: zabbix
+    MYSQL_PASSWORD: zabbix_pwd
+    MYSQL_ROOT_PASSWORD: root_pwd
+    ZBX_JAVAGATEWAY: zabbix-java-gateway
+  links: 
+    - zabbix-db
+    - zabbix-jmx
+  ports: 
+    - 10051:10051
+    
+zabbix-jmx: 
+  image: zabbix/zabbix-java-gateway
+  hostname: zabbix-jmx
+
+zabbix-db:
+  image: mysql:5.7
+  hostname: zabbix-db
+  expose:
+    - "3306"
+  environment:
+    MYSQL_DATABASE: zabbix
+    MYSQL_USER: zabbix
+    MYSQL_PASSWORD: zabbix_pwd
+    MYSQL_ROOT_PASSWORD: root_pwd
