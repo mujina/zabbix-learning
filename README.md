@@ -1,4 +1,4 @@
-###Gettting started on Docker. 
+### Gettting started on Docker. 
 
 My approach was to buy this book from leanpub for about £10. 
 
@@ -10,9 +10,9 @@ Also Nigel Poulton has some great Docker tutorials on Pluralsight.
 
 [https://www.pluralsight.com](https://www.pluralsight.com)
 
-It's a PAYG video training sight, but well worth the investment. 
+Pluralsight is a PAYG video training site, but well worth the investment. 
 
-In this directory a docker-compose file for running Zabbix. 
+In this directory you will find a docker-compose file for running Zabbix. 
 
 First install docker using your package manager, then install docker compose and run 
 
